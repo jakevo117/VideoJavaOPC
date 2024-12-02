@@ -2,31 +2,19 @@ package Model;
 
 import javax.xml.catalog.CatalogException;
 
-public class Category {
-    private String name;
-    private String description;
+enum Category {
+    GENERAL,
+    HORROR,
+    COMEDY,
+    ACTION,
+    ROMANCE,
+    CARTOON;
 
-    public Category(){
-
-    }
-    public Category(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public static Category getCateOrDefault(String input){
+        try {
+            return Category.valueOf(input.toUpperCase());
+        } catch(IllegalArgumentException e) {
+            return GENERAL;
+        }
     }
 }

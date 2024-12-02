@@ -14,12 +14,12 @@ public class Item {
         this.isAvailable = true;
     }
 
-    public String getItemID() {
+    public String getTitle() {
         return title;
     }
 
-    public void setItemID(String itemID) {
-        this.title = itemID;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Category getCategory() {
@@ -35,6 +35,6 @@ public class Item {
     }
 
     public void setAvailable(Boolean available) {
-        isAvailable = available;
+        this.isAvailable = available;
     }
 }
