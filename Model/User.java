@@ -1,32 +1,34 @@
 package Model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class User {
-    private String userId;
+    private int userId;
     private String userName;
     private String password;
     private String email;
-    private Date birthDate;
-    private int year;
+    private LocalDate birthDate;
+    private int age;
 
-    public User() {
-    }
 
-    public User(String userId, String userName, String password, String email, Date birthDate, int year) {
-        this.userId = userId;
+    public User(String userName, String password, String email, LocalDate birthDate, int age) {
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.birthDate = birthDate;
-        this.year = year;
+        this.age = age;
     }
 
-    public String getUserId() {
+    public User(){
+
+    }
+
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -54,20 +56,20 @@ public class User {
         this.email = email;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
-    public int getYear() {
-        return year;
+    public int getAge() {
+        return age;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setAge(int year) {
+        this.age = age;
     }
 }
 
