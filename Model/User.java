@@ -1,6 +1,7 @@
 package Model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class User {
@@ -9,19 +10,21 @@ public class User {
     private String password;
     private String email;
     private LocalDate birthDate;
-    private int age;
+    private ArrayList<Rent> rent;
+    private ArrayList<Transaction> transactions;
 
 
-    public User(String userName, String password, String email, LocalDate birthDate, int age) {
+    public User(String userName, String password, String email, LocalDate birthDate) {
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.birthDate = birthDate;
-        this.age = age;
+        this.rent = new ArrayList<>();
     }
 
-    public User(){
-
+    public User(String userName, String password, String email, LocalDate birthDate, ArrayList<Rent> rent){
+        this(userName, password, email, birthDate);
+        this.rent = rent;
     }
 
     public int getUserId() {
@@ -64,12 +67,32 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public int getAge() {
-        return age;
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
     }
 
-    public void setAge(int year) {
-        this.age = age;
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public ArrayList<Rent> getRentingItems(){
+        return rent;
+    }
+
+    public void addRentingItems(Rent rent){
+        this.rent.add(rent);
+    }
+
+    public void removeRentingItems(Rent rent){
+        this.rent.remove(rent);
+    }
+
+    public void printUserInfo(){
+        System.out.println("User ID: " + userId);
+        System.out.println("Username: " + userName);
+        System.out.println("Email: " + email);
+        System.out.println("Birthday: " + birthDate);
+        System.out.println();
     }
 }
 

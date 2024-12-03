@@ -3,28 +3,14 @@ package Model;
 import java.util.Date;
 
 public class Rent {
-    private User user;
     private Item item;
     private Date rentDate;
     private Date returnDate;
 
-    public Rent(){
-
-    }
-
-    public Rent(User user, Item item, Date rentDate, Date returnDate) {
-        this.user = user;
+    public Rent(Item item, Date rentDate, Date returnDate) {
         this.item = item;
         this.rentDate = rentDate;
         this.returnDate = returnDate;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Item getItem() {

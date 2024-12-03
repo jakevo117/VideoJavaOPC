@@ -1,18 +1,16 @@
 package Model;
 
+import java.time.LocalDate;
+
 public class Transaction {
     private Rent rent;
     private Double amount;
-    private Boolean isPaid;
+    private LocalDate paidDate;
 
-    public Transaction(){
-
-    }
-
-    public Transaction(Rent rent, Double amount, Boolean isPaid) {
+    public Transaction(Rent rent, Double amount, LocalDate paidDate) {
         this.rent = rent;
         this.amount = amount;
-        this.isPaid = false;
+        this.paidDate = paidDate;
     }
 
     public Rent getRent() {
@@ -31,11 +29,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Boolean getPaid() {
-        return isPaid;
+    public LocalDate getPaidDate() {
+        return paidDate;
     }
 
-    public void Paid(Boolean paid) {
-        this.isPaid = true;
+    public void setPaidDate(LocalDate paidDate) {
+        this.paidDate = paidDate;
     }
 }

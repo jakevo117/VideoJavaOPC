@@ -4,14 +4,13 @@ public class Item {
     private String title;
     private Category category;
     private Boolean isAvailable;
+    private double price;
 
-    public Item (){
-
-    }
-    public Item(String title, Category category, Boolean isAvailable) {
+    public Item(String title, Category category, Boolean isAvailable, double price) {
         this.title = title;
         this.category = category;
         this.isAvailable = true;
+        this.price = price;
     }
 
     public String getTitle() {
@@ -36,5 +35,13 @@ public class Item {
 
     public void setAvailable(Boolean available) {
         this.isAvailable = available;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
