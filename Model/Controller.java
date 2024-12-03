@@ -24,6 +24,10 @@ public class Controller {
         while (true){
             System.out.print("Input username: ");
             userName = scanner.nextLine();
+            if(userName.isEmpty()){
+                System.out.println("Username cannot be empty");
+                continue;
+            }
 
             boolean usernameExist = false;
             for (User user: this.user) {
@@ -38,12 +42,26 @@ public class Controller {
                 break;
             }
         }
-        System.out.print("Input password: ");
-        String password = scanner.nextLine();
+
+        String password;
+        while (true) {
+            System.out.print("Input password: ");
+            password = scanner.nextLine();
+            if (password.isEmpty()){
+                System.out.println("Password cannot be empty");
+            } else {
+                break;
+            }
+        }
+
 
         while (true){
             System.out.print("Input email: ");
             email = scanner.nextLine();
+            if (email.isEmpty()){
+                System.out.println("Email cannot be empty");
+                continue;
+            }
 
             boolean emailExist = false;
             for (User user: this.user) {
@@ -59,10 +77,17 @@ public class Controller {
             }
         }
 
-
-        System.out.print("Input date of birth(yyyy-mm-dd): ");
-        String birthdayStr = scanner.nextLine();
-        LocalDate birthDate = LocalDate.parse(birthdayStr);
+        LocalDate birthDate;
+        while (true) {
+            System.out.print("Input date of birth(yyyy-mm-dd): ");
+            String birthdayStr = scanner.nextLine();
+            if (birthdayStr.isEmpty()){
+                System.out.println("Birthday cannot be empty");
+            } else {
+                birthDate = LocalDate.parse(birthdayStr);
+                break;
+            }
+        }
 
         User toAdd = new User(userName, password, email, birthDate);
         toAdd.setUserId(UserIdCounter);
@@ -186,18 +211,37 @@ public class Controller {
                             if (userInfoEdit.equalsIgnoreCase(user.getUserName())) {
                                 System.out.print("Enter new username: ");
                                 String newUserName = scanner.nextLine();
+                                if (newUserName.equalsIgnoreCase(user.getUserName())){
+                                    System.out.println("The username is already exist.");
+                                    continue;
+                                }
                                 user.setUserName(newUserName);
                                 System.out.println("Username changed successfully");
                                 return;
                             }
                         }
                         case 2 -> {
-                            System.out.print("Enter the new email: ");
-                            String newEmail = scanner.nextLine();
-                            user.setEmail(newEmail);
+                            while (true) {
+                                System.out.print("Enter the new email: ");
+                                String newEmail = scanner.nextLine();
+                                if (newEmail.equalsIgnoreCase(user.getEmail())){
+                                    System.out.println("The email is already exist.");
+                                    continue;
+                                }
+                                user.setEmail(newEmail);
+                                break;
+                            }
                             System.out.println("Email changed successfully");
                             return;
                             }
+                        case 3 -> {
+                            System.out.println("Enter the new date of birth (yyyy-mm-dd): ");
+                            String birthdayStr = scanner.nextLine();
+                            LocalDate birthDate = LocalDate.parse(birthdayStr);
+                            user.setBirthDate(birthDate);
+                            System.out.println("Date of birth changed successfully.");
+                            return;
+                        }
 
                         case 4 -> System.out.println("Cancelling change");
                         default -> System.out.println("Invalid choice. Please choose again");
@@ -254,7 +298,7 @@ public class Controller {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter the item you want to delete: ");
         String itemDelete = sc.nextLine();
-        Boolean isItem = false;
+        boolean isItem = false;
 
         for (Item item: this.availableItems) {
             if (itemDelete.equals(item.getTitle())){
@@ -280,6 +324,5 @@ public class Controller {
             System.out.println("The user is not exist");
         }
     }
-
 }
 
