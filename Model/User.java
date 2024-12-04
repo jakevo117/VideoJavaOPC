@@ -12,7 +12,14 @@ public class User {
     private LocalDate birthDate;
     private ArrayList<Rent> rent;
     private ArrayList<Transaction> transactions;
+    private double wallet;
+    private ArrayList<Item> cart;
+    public static int newUserId = 0;
 
+    public static int getNewUserId() {
+        User.newUserId = newUserId + 1;
+        return User.newUserId;
+    }
 
     public User(String userName, String password, String email, LocalDate birthDate) {
         this.userName = userName;
@@ -85,6 +92,22 @@ public class User {
 
     public void removeRentingItems(Rent rent){
         this.rent.remove(rent);
+    }
+
+    public double getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(double wallet) {
+        this.wallet = wallet;
+    }
+
+    public void addItemToCart(Item item) {
+        cart.add(item);
+    }
+
+    public ArrayList<Item> getCart() {
+        return cart;
     }
 
     public void printUserInfo(){

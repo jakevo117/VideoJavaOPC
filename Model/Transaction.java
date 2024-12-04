@@ -3,23 +3,24 @@ package Model;
 import java.time.LocalDate;
 
 public class Transaction {
-    private Rent rent;
+    private int transactionId;
+    private int code;
     private Double amount;
     private LocalDate paidDate;
 
-    public Transaction(Rent rent, Double amount, LocalDate paidDate) {
-        this.rent = rent;
+    public Transaction(Double amount, LocalDate paidDate) {
+//        this.rent = rent;
         this.amount = amount;
         this.paidDate = paidDate;
     }
 
-    public Rent getRent() {
-        return rent;
-    }
-
-    public void setRent(Rent rent) {
-        this.rent = rent;
-    }
+//    public Rent getRent() {
+//        return rent;
+//    }
+//
+//    public void setRent(Rent rent) {
+//        this.rent = rent;
+//    }
 
     public Double getAmount() {
         return amount;

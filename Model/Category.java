@@ -2,7 +2,7 @@ package Model;
 
 import javax.xml.catalog.CatalogException;
 
-enum Category {
+public enum Category {
     GENERAL,
     HORROR,
     COMEDY,
