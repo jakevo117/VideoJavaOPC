@@ -23,9 +23,9 @@ public class Main {
             switch (option) {
                 case 1 -> user.addUser();
 //                case 2 -> user.deleteUser();
-//                case 3 -> user.searchUser();
+                case 3 -> user.searchUser();
 //                case 4 -> user.editUserInfo();
-//                case 5 -> user.listUserInfo();
+                case 5 -> user.listUserInfo();
 //                case 6 -> user.addItem();
 //                case 7 -> user.deleteItem();
 //                case 8 -> user.searchMovie();

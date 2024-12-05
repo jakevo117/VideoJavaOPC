@@ -20,15 +20,6 @@ public class UserService {
     }
 
 //    USER FUNCTIONS
-    public void addUser(String userName, String password, String email, String birthdayStr) throws Exception {
-        if (checkExist(userName, "username")) {
-            throw new Exception("Username is already existed. Please choose another one.");
-        }
-        if (checkExist(email, "email")){
-            throw new Exception("Email is already existed. Please choose another one.");
-        }
-        userList.add(new User(userName, password,email, LocalDate.parse(birthdayStr)));
-    }
 
     public void addUser(String userName, String password, String email, LocalDate birthday) throws Exception {
         if (checkExist(userName, "username")) {
@@ -40,58 +31,25 @@ public class UserService {
         userList.add(new User(userName, password,email, birthday));
     }
 
-    public boolean checkExist(String inputNeedCheck, String fieldCase) {
-        boolean returnValue = false;
-        switch (fieldCase) {
-            case "username":
-                returnValue = this.userList.stream().anyMatch(u -> inputNeedCheck.equals(u.getUserName()));
-                break;
-            case "email":
-                returnValue = this.userList.stream().anyMatch(u -> inputNeedCheck.equals(u.getEmail()));
-                break;
+    public void listUserInfo() {
+        for (User user: userList){
+            user.printUserInfo();
         }
-        return returnValue;
     }
 
 
-//  VIEWING ALL USER
-//    public void listUserInfo() {
-//        if (this.user.isEmpty()) {
-//            System.out.println("Users list is empty");
-//            return;
-//        }
-//        System.out.println("Users list:");
-//        for (User user : this.user) {
-//            System.out.println();
-//            user.printUserInfo();
-//        }
-//    }
-//
+
 //// VIEW A SPECIFIC USER
-//    public void searchUser(){
-//        Scanner scanner = new Scanner(System.in);
-//        boolean isUser = false;
-//        if (isUser){
-//            System.out.println("Users list is empty");
-//            return;
-//        }
-//        System.out.print("Enter the username you want to find: ");
-//        String userSearch = scanner.nextLine();
-//        System.out.println("Searching user....");
-//        System.out.println();
-//
-//        for (User user: this.user) {
-//            if (userSearch.equals(user.getUserName())){
-//                isUser = true;
-//                user.printUserInfo();
-//                break;
-//            }
-//        }
-//        if (!isUser){
-//            System.out.println("The user is not exist");
-//        }
-//    }
-//
+    public User searchUser(String userFind) throws Exception {
+        User user = null;
+        for (User userSearch : userList) {
+            if (userFind.equals(userSearch.getUserName())) {
+                user = userSearch;
+            }
+        }
+        return user;
+    }
+
 //// DELETE A USER
 //    public void deleteUser(){
 //        Scanner sc = new Scanner(System.in);
@@ -215,5 +173,22 @@ public class UserService {
 //                }
 //             }
 //        }
+
+    public boolean checkExist(String inputNeedCheck, String fieldCase) {
+        boolean returnValue = false;
+        switch (fieldCase) {
+            case "username":
+                returnValue = this.userList.stream().anyMatch(u -> inputNeedCheck.equals(u.getUserName()));
+                break;
+            case "email":
+                returnValue = this.userList.stream().anyMatch(u -> inputNeedCheck.equals(u.getEmail()));
+                break;
+        }
+        return returnValue;
+    }
+
+    public boolean checkEmpty(){
+        return !userList.isEmpty();
+    }
 }
 

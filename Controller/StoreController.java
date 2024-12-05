@@ -50,6 +50,36 @@ public class StoreController {
                 System.out.println(e.getMessage());
             }
         }
+    }
 
+    public void listUserInfo(){
+        try {
+            if (!userService.checkEmpty()){
+                throw new Exception("The user list is empty");
+            }
+            userService.listUserInfo();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void searchUser(){
+        try {
+            if (!userService.checkEmpty()) {
+                throw new Exception("The user list is empty");
+            }
+
+            String searchUser = reader.getNonEmptyString("Enter the username you want to find: ");
+            System.out.println("Searching user....");
+
+            User user= userService.searchUser(searchUser);
+            if (user == null) {
+                throw new Exception("The user is not exist");
+            }
+            user.printUserInfo();
+            System.out.println();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

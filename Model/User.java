@@ -110,8 +110,9 @@ public class User {
         return cart;
     }
 
+
     public void printUserInfo(){
-        System.out.println("User ID: " + userId);
+        System.out.println("User ID: " + getNewUserId());
         System.out.println("Username: " + userName);
         System.out.println("Email: " + email);
         System.out.println("Birthday: " + birthDate);
