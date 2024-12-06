@@ -3,6 +3,7 @@ package Util;
 import Service.UserService;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class Reader {
@@ -11,7 +12,6 @@ public class Reader {
     public static Reader getReader() {
         return new Reader();
     }
-
     public int getNumber(String message) {
         while (true) {
             System.out.print(message);
@@ -19,6 +19,39 @@ public class Reader {
             try {
                 int choice = Integer.parseInt(input);
                 return choice;
+            } catch (Exception e) {
+                System.out.println("Input must be a number.");
+            }
+        }
+    }
+
+    public int getNumberChoice(String message, List<Integer> choices) {
+        while (true) {
+            System.out.print(message);
+            String input = sc.nextLine().trim();
+            try {
+                int choice = Integer.parseInt(input);
+                for (int option : choices) {
+                    if (option == choice) {
+                        return choice;
+                    }
+                }
+                System.out.println("Input again");
+            } catch (Exception e) {
+                System.out.println("Input must be a number.");
+            }
+        }
+    }
+
+
+
+    public double getDoubleNumber(String message) {
+        while (true) {
+            System.out.print(message);
+            String input = sc.nextLine().trim();
+            try {
+                double doubleNum = Double.parseDouble(input);
+                return doubleNum;
             } catch (Exception e) {
                 System.out.println("Input must be a number.");
             }
@@ -37,7 +70,6 @@ public class Reader {
             }
         }
     }
-
     public String getNonEmptyString(String message) {
         while (true) {
             try {
@@ -87,6 +119,11 @@ public class Reader {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    public boolean getConfirm() throws Exception {
+        String userConfirm = this.getNonEmptyString("Do you wish to continue? (Y/N): ").toUpperCase();
+        return userConfirm.equals("Y");
     }
 
 }

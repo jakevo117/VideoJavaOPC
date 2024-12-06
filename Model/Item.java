@@ -1,25 +1,23 @@
 package Model;
 
 public class Item {
+    private int itemId;
     private String title;
     private Category category;
     private Boolean isAvailable;
     private double price;
-
     private int quantity;
-
-    public Item(String title, Category category, Boolean isAvailable, double price) {
+    public static int newItemId = 0;
+    public Item(String title, Category category, double price, int quantity) {
+        this.itemId = ++newItemId;
         this.title = title;
         this.category = category;
-        this.isAvailable = true;
-        this.price = price;
-    }
-    public Item(String title, Category category, Boolean isAvailable, double price, int quantity) {
-        this.title = title;
-        this.category = category;
-        this.isAvailable = true;
         this.price = price;
         this.quantity = quantity;
+    }
+    public Item(String title, Category category, double price, int quantity, Boolean isAvailable) {
+        this(title, category, price, quantity);
+        this.isAvailable = true;
     }
 
     public String getTitle() {
@@ -73,13 +71,14 @@ public class Item {
     }
     public void printItemInfo(){
         title = capitalizeWord(title);
+        System.out.println("Movie ID: " + itemId);
         System.out.println("Title: " + title);
         System.out.println("Category: " + category);
         if (isAvailable){
             System.out.println("Status: In-stock");
             System.out.println("Quantity: " + quantity);
         }
-        else{
+        else {
             System.out.println("Status: Out-of-stock");
         }
         System.out.println("Price: " + price);

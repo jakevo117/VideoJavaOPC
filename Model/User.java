@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class User {
+public class User  {
     private int userId;
     private String userName;
     private String password;
@@ -17,11 +17,11 @@ public class User {
     public static int newUserId = 0;
 
     public static int getNewUserId() {
-        User.newUserId = newUserId + 1;
-        return User.newUserId;
+        return newUserId;
     }
 
-    public User(String userName, String password, String email, LocalDate birthDate) {
+    public User(int userId, String userName, String password, String email, LocalDate birthDate) {
+        this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -29,10 +29,10 @@ public class User {
         this.rent = new ArrayList<>();
     }
 
-    public User(String userName, String password, String email, LocalDate birthDate, ArrayList<Rent> rent){
-        this(userName, password, email, birthDate);
-        this.rent = rent;
-    }
+//    public User(String userName, String password, String email, LocalDate birthDate, ArrayList<Rent> rent){
+//        this(userName, password, email, birthDate);
+//        this.rent = rent;
+//    }
 
     public int getUserId() {
         return userId;
@@ -112,7 +112,7 @@ public class User {
 
 
     public void printUserInfo(){
-        System.out.println("User ID: " + getNewUserId());
+        System.out.println("User ID: " + userId);
         System.out.println("Username: " + userName);
         System.out.println("Email: " + email);
         System.out.println("Birthday: " + birthDate);
