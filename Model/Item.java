@@ -1,23 +1,28 @@
 package Model;
 
+import java.time.LocalDate;
+
 public class Item {
     private int itemId;
     private String title;
     private Category category;
     private Boolean isAvailable;
     private double price;
-    private int quantity;
-    public static int newItemId = 0;
-    public Item(String title, Category category, double price, int quantity) {
-        this.itemId = ++newItemId;
+
+    public Item(int itemId, String title, Category category, double price) {
+        this.itemId = itemId;
         this.title = title;
         this.category = category;
         this.price = price;
-        this.quantity = quantity;
+        this.isAvailable = false;
     }
-    public Item(String title, Category category, double price, int quantity, Boolean isAvailable) {
-        this(title, category, price, quantity);
-        this.isAvailable = true;
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public String getTitle() {
@@ -53,14 +58,6 @@ public class Item {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public static String capitalizeWord(String input){
         String[] words = input.split("\\s");
         StringBuilder result = new StringBuilder();
@@ -74,14 +71,18 @@ public class Item {
         System.out.println("Movie ID: " + itemId);
         System.out.println("Title: " + title);
         System.out.println("Category: " + category);
-        if (isAvailable){
-            System.out.println("Status: In-stock");
-            System.out.println("Quantity: " + quantity);
-        }
-        else {
-            System.out.println("Status: Out-of-stock");
-        }
         System.out.println("Price: " + price);
+        System.out.println();
+    }
+
+    public void printItemInfo(int quantity){
+        title = capitalizeWord(title);
+        System.out.println("Movie ID: " + itemId);
+        System.out.println("Title: " + title);
+        System.out.println("Category: " + category);
+        System.out.println("Price: " + price);
+        System.out.println("Quantity: " + quantity);
+
         System.out.println();
     }
 }

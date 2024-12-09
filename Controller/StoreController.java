@@ -1,9 +1,9 @@
 package Controller;
 
-import Model.Category;
-import Model.Item;
-import Model.User;
+import Model.*;
 import Service.ItemService;
+import Service.RentingService;
+import Service.StorageService;
 import Service.UserService;
 import Util.Reader;
 
@@ -15,12 +15,16 @@ import java.util.List;
 public class StoreController {
     private UserService userService;
     private ItemService itemService;
+    private RentingService rentingService;
+    private StorageService storageService;
 
     private Reader reader = Reader.getReader();
 
     public StoreController() {
         this.userService = new UserService();
         this.itemService = new ItemService();
+        this.rentingService = new RentingService();
+        this.storageService = new StorageService();
     }
 
     public void addUser() {
@@ -163,28 +167,20 @@ public class StoreController {
             String inputTitle = "";
             String inputCategory = "";
             double inputPrice = 0.0;
-            int inputQuantity = 0;
+            int defaultQuantity = 0;
 
             inputTitle = reader.getNonEmptyString("Input movie title: ");
-            if (itemService.checkExistItem(inputTitle)) {
-                System.out.println("The movie is already in the store");
-                inputQuantity = reader.getNumber("Input the number of copies you want to add: ");
-                itemService.addQuantity(inputQuantity, inputTitle);
-                System.out.println(inputQuantity + " copies added successfully");
-                System.out.println();
+            inputCategory = reader.getNonEmptyString("Input the movie category (Default is GENERAL): ");
+            defaultQuantity = reader.getNumber("Input default quantity: ");
 
-            } else {
-                inputCategory = reader.getNonEmptyString("Input the movie category (Default is GENERAL): ");
-                Category selectCate = Category.getCateOrDefault(inputCategory);
-                if (selectCate == Category.GENERAL) {
-                    System.out.println("Cannot found category. Defaulting to GENERAL");
-                }
-                inputPrice = reader.getDoubleNumber("Input the price of the movie: ");
-                inputQuantity = reader.getNumber("Input the quantity of the movie: ");
-                itemService.addItem(inputTitle, selectCate, inputPrice, inputQuantity);
-
+            Category selectCate = Category.getCateOrDefault(inputCategory);
+            if (selectCate == Category.GENERAL) {
+                System.out.println("Cannot found category. Defaulting to GENERAL");
             }
+            inputPrice = reader.getDoubleNumber("Input the price of the movie: ");
+            Item addItem = itemService.addItem(inputTitle, selectCate, inputPrice);
 
+            storageService.addQuantity(addItem.getItemId(), defaultQuantity);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -209,6 +205,7 @@ public class StoreController {
         }
     }
 
+
     public void listItem() {
         try {
             if (itemService.checkEmptyList()) {
@@ -216,7 +213,12 @@ public class StoreController {
             }
             System.out.println();
             System.out.println("=== The movie list ===");
-            itemService.listItem();
+            List<Item> listItem = itemService.getListItem();
+            for (Item item: listItem) {
+                int storageQuantity = storageService.getItemQuantityByItemId(item.getItemId());
+                item.printItemInfo(storageQuantity);
+
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -263,10 +265,10 @@ public class StoreController {
             }
 
             System.out.println("What would you want to change: ");
-            System.out.println("1. Title     2. Category    3. Price    4.Quantity    5. Cancel change");
+            System.out.println("1. Title     2. Category    3. Price    4. Cancel change");
 
             List<Integer> listItemChoice = new ArrayList<Integer>();
-            Collections.addAll(listItemChoice, 1, 2, 3);
+            Collections.addAll(listItemChoice, 1, 2, 3, 4);
             System.out.println();
 
             int choice = reader.getNumberChoice("Input your choice: ", listItemChoice);
@@ -291,14 +293,68 @@ public class StoreController {
                     foundItem.setPrice(newPrice);
                     System.out.println("Price changed successfully.");
                 }
-                case 4 -> {
-                    int newQuantity = reader.getNumber("Enter the quantity you want to change: ");
-                    foundItem.setQuantity(newQuantity);
-                    System.out.println("Quantity changed successfully.");
-                }
-                case 5 -> throw new Exception("Cancelling change");
+                case 4 -> throw new Exception("Cancelling change");
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void addItemQuantity() {
+        try {
+            if (itemService.checkEmptyList()) {
+                throw new Exception("The movie list is empty");
+            }
+
+            int movieAdd = reader.getNumber("Which movie do you want to add to: ");
+            int itemQuantityAdd = reader.getNumber("How many copies do you want to add: ");
+            storageService.addQuantity(movieAdd, itemQuantityAdd);
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void rentMovie() {
+        try {
+            if (itemService.checkEmptyList()) {
+                throw new Exception("The movie list is empty");
+            }
+
+            int userId = reader.getNumber("Input your user ID: ");
+            if (!userService.checkUserId(userId)){
+                throw new Exception("User ID not found");
+            }
+
+            String rentMovie = reader.getNonEmptyString("Enter the movie you want to rent: ");
+            Item itemToRent = itemService.searchItem(rentMovie);
+            if (itemToRent == null){
+                throw new Exception("Movie not found");
+            }
+
+            int numberOfRent = reader.getNumber("How many copies of the movie you want to rent: ");
+            long rentingDay = reader.getLongNumber("How many days you want to rent: ");
+
+            rentingService.rentItem(userId, itemToRent, numberOfRent, rentingDay);
+            System.out.println("Movie rented successfully");
+            System.out.println();
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void rentingList(){
+        try {
+            if (rentingService.checkEmptyList()) {
+                throw new Exception("The renting list is empty");
+            }
+            System.out.println();
+            System.out.println("=== The renting list ===");
+            rentingService.rentList();
+
+
+        } catch (Exception e){
             System.out.println(e.getMessage());
         }
     }

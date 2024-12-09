@@ -2,33 +2,32 @@ package Service;
 
 import Model.Category;
 import Model.Item;
-import Model.User;
+import Model.Storage;
 import Util.Reader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemService {
     private ArrayList<Item> availableItems;
-    private Reader reader = Reader.getReader();
+    private int ItemIdCounter;
 
     public ItemService() {
         this.availableItems = new ArrayList<>();
+        this.ItemIdCounter = 1;
     }
 
     //    ITEM FUNCTIONS
 
-    public void addItem(String title, Category category, double price, int quantity) throws Exception {
-        availableItems.add(new Item(title, category, price, quantity, true));
-        System.out.println("New movie added successfully");
+    public Item addItem(String title, Category category, double price) throws Exception {
+        Item item = new Item(this.ItemIdCounter, title,category, price);
+        availableItems.add(item);
+        this.ItemIdCounter++;
+        return item;
     }
 
-    public void addQuantity(int newQuantity, String title) {
-        for (Item item : availableItems) {
-            if (title.equalsIgnoreCase(item.getTitle())) {
-                item.setQuantity(item.getQuantity() + newQuantity);
-                return;
-            }
-        }
+    public List<Item> getListItem () {
+        return this.availableItems;
     }
 
     public void listItem() {
@@ -54,6 +53,17 @@ public class ItemService {
     public void editItemInfo(Item itemToEdit) throws Exception {
         int index = availableItems.indexOf(itemToEdit);
         availableItems.set(index, itemToEdit);
+    }
+
+
+    public int getItemIdByMovieTitle(String title){
+        int userId = 0;
+        for (Item item: availableItems){
+            if (title == item.getTitle()){
+                userId = item.getItemId();
+            }
+        }
+        return userId;
     }
 
     public boolean checkExistItem(String itemNeedCheck) {

@@ -14,11 +14,6 @@ public class User  {
     private ArrayList<Transaction> transactions;
     private double wallet;
     private ArrayList<Item> cart;
-    public static int newUserId = 0;
-
-    public static int getNewUserId() {
-        return newUserId;
-    }
 
     public User(int userId, String userName, String password, String email, LocalDate birthDate) {
         this.userId = userId;

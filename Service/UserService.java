@@ -49,6 +49,15 @@ public class UserService {
         return user;
     }
 
+    public boolean checkUserId(int userId){
+        for (User user: userList){
+            if (userId == user.getUserId()){
+                return true;
+            }
+        }
+        return false;
+    }
+
 //// DELETE A USER
     public void deleteUser(User userToDelete){
         userList.remove(userToDelete);
@@ -76,5 +85,6 @@ public class UserService {
     public boolean checkEmpty(){
         return userList.isEmpty();
     }
+
 }
 

@@ -25,6 +25,19 @@ public class Reader {
         }
     }
 
+    public long getLongNumber(String message) {
+        while (true) {
+            System.out.print(message);
+            String input = sc.nextLine().trim();
+            try {
+                long choice = Long.parseLong(input);
+                return choice;
+            } catch (Exception e) {
+                System.out.println("Input must be a number.");
+            }
+        }
+    }
+
     public int getNumberChoice(String message, List<Integer> choices) {
         while (true) {
             System.out.print(message);
