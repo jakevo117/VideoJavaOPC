@@ -14,14 +14,18 @@ public class StorageService {
     }
 
     public void addQuantity(int itemId, int amount) throws Exception {
-       storageItemList.add(new Storage(itemId, amount));
+       storageItemList.add(new Storage(itemId, amount, true));
+    }
+
+    public void deductQuantity(int itemId, int amount){
+        storageItemList.add(new Storage(itemId, -amount, false));
     }
 
     public int getItemQuantityByItemId(int itemId) throws Exception {
         int count = 0;
         for (Storage storage: storageItemList ) {
             if (storage.getItemId() == itemId) {
-                count = count + storage.getQuantity();
+                count += storage.getQuantity();
             }
         }
         return count;
@@ -34,5 +38,8 @@ public class StorageService {
         for (Storage storage: storageItemList){
             storage.printStorageInfo();
         }
+    }
+    public boolean checkEmptyList(){
+        return storageItemList.isEmpty();
     }
 }

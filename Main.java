@@ -15,9 +15,10 @@ public class Main {
             System.out.println("                                            ===========================");
             System.out.println("1.  Add User                2.  Delete User      3.  Search User      4.  Edit User Information      5.  View All User Information");
             System.out.println("6.  Add Movie               7.  Delete Movie     8.  Search Movie     9.  Edit Movie Information     10. View All Movie Information");
-            System.out.println("11. Add movie quantity      12. Rent a movie     13. View wallet      14. Top up money               15. View Renting List                                                            ");
+            System.out.println("11. Add movie quantity      12. Rent a movie     13. View Storage     14. Change renting status      15. View Renting List          ");
+            System.out.println("16.    ");
             System.out.print("\n");
-            System.out.println("                                                                                                     16. EXIT");
+            System.out.println("                                                                                                     17. EXIT");
 
             int option = reader.getNumber("Input your choice: ");
             switch (option) {
@@ -33,8 +34,10 @@ public class Main {
                 case 10 -> user.listItem();
                 case 11 -> user.addItemQuantity();
                 case 12 -> user.rentMovie();
+                case 13 -> user.listStorage();
+                case 14 -> user.statusChange();
                 case 15 -> user.rentingList();
-                case 16 -> {
+                case 17 -> {
                     System.out.println("Exiting....");
                     return;
                 }

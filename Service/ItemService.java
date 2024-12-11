@@ -55,16 +55,16 @@ public class ItemService {
         availableItems.set(index, itemToEdit);
     }
 
-
     public int getItemIdByMovieTitle(String title){
-        int userId = 0;
+        int userId = -1;
         for (Item item: availableItems){
-            if (title == item.getTitle()){
+            if (title.equalsIgnoreCase(item.getTitle())){
                 userId = item.getItemId();
             }
         }
         return userId;
     }
+
 
     public boolean checkExistItem(String itemNeedCheck) {
         return this.availableItems.stream().anyMatch(u -> itemNeedCheck.equalsIgnoreCase(u.getTitle()));

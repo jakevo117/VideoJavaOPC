@@ -81,7 +81,13 @@ public class Item {
         System.out.println("Title: " + title);
         System.out.println("Category: " + category);
         System.out.println("Price: " + price);
-        System.out.println("Quantity: " + quantity);
+        if (quantity > 0){
+            System.out.println("In-stock");
+            System.out.println("Quantity: " + quantity);
+        } else {
+            System.out.println("Out of stock");
+            System.out.println("Quantity: " + quantity);
+        }
 
         System.out.println();
     }

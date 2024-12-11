@@ -2,10 +2,10 @@ package Service;
 
 import Model.Item;
 import Model.Rent;
-import Model.User;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RentingService {
     private ArrayList<Rent> rentList;
@@ -16,20 +16,10 @@ public class RentingService {
         this.RentIdCounter = 1;
     }
 
-//    public void rentingMovie(String movieToBeRent, int numberOfRent){
-//        double amountMoneyToRent = item.getPrice() * numberOfRent;
-//
-//        if (item.getTitle().equalsIgnoreCase(movieToBeRent)){
-//            if (user.getWallet() >= amountMoneyToRent && itemInStorage.getQuantity() >= numberOfRent) {
-//                deductQuantity(numberOfRent);
-//            }
-//        }
-//    }
-
     public Rent rentItem(int userId, Item rentMovie, int numberOfCopies, long rentingDay){
-        Rent movieRent = new Rent(userId, rentMovie, numberOfCopies, rentingDay);
+        Rent movieRent = new Rent(RentIdCounter, userId, rentMovie, numberOfCopies, rentingDay);
         rentList.add(movieRent);
-        this.RentIdCounter++;
+        RentIdCounter++;
         return movieRent;
     }
 
@@ -43,7 +33,38 @@ public class RentingService {
         return rentList.isEmpty();
     }
 
-//    public void deductQuantity(int numberOfRent){
-//        itemInStorage.setQuantity(itemInStorage.getQuantity() - numberOfRent);
-//    }
+    public LocalDateTime getDateAndTimeRent(){
+        LocalDateTime dateTime = null;
+        for (Rent rent: rentList){
+            dateTime =  rent.getDateTimeRent();
+        }
+        return dateTime;
+    }
+
+    public boolean changeStatus(int rentId, int storageQuantity){
+        for (Rent rent: rentList) {
+            if (rentId == rent.getRentId()) {
+                if (rent.getRentQuantity() <= storageQuantity){
+                    rent.setStatus(true);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int getItemIdByRentId(int rentId) throws Exception {
+        int itemId;
+        for (Rent rent : rentList) {
+            if (rentId == rent.getRentId()){
+                itemId = rent.getItem().getItemId();
+                return itemId;
+            }
+        }
+        throw new Exception("Cannot found Id");
+    }
+
+    public ArrayList<Rent> getRentList(){
+        return this.rentList;
+    }
 }
