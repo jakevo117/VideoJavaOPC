@@ -1,7 +1,5 @@
 package Model;
 
-import java.time.LocalDate;
-
 public class Item {
     private int itemId;
     private String title;

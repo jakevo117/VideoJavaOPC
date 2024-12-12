@@ -10,19 +10,19 @@ public class Rent {
     private int userId;
     private int rentId;
     private int rentQuantity;
-    private boolean status;
+    private RentingStatus status;
     private LocalDate rentDate;
     private long returnDate;
     private LocalDateTime dateTimeRent;
 
-    public Rent(int rentId, int userId, Item item, int rentQuantity, long returnDate) {
+    public Rent(int rentId, int userId, Item item, int rentQuantity, long returnDate, RentingStatus status) {
         this.rentId = rentId;
         this.item = item;
         this.userId = userId;
         this.rentQuantity = rentQuantity;
         this.rentDate = LocalDate.now();
         this.dateTimeRent = LocalDateTime.now();
-        this.status = false;
+        this.status = status;
         this.returnDate = returnDate;
     }
 
@@ -73,11 +73,11 @@ public class Rent {
         this.returnDate = returnDate;
     }
 
-    public boolean getStatus() {
+    public RentingStatus getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(RentingStatus status) {
         this.status = status;
     }
 
@@ -89,22 +89,21 @@ public class Rent {
         this.dateTimeRent = dateTimeRent;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
     public void printRentList (){
         System.out.println("Rent ID: " + rentId);
         System.out.println("User ID: " + userId);
         System.out.println("Number of copies rent: " + rentQuantity);
         System.out.println("Rent movie: " + item.getTitle());
-        if (isStatus()){
+        if (status == RentingStatus.PAID){
             System.out.println("Status: Paid");
             System.out.println("Rent date: " + rentDate);
             System.out.println("Return date: " + rentDate.plusDays(returnDate));
-        } else {
+        } else if (status == RentingStatus.UNPAID) {
             System.out.println("Status: Unpaid");
             System.out.println("Rent request date and time: " + DateTime.formatDateTime(dateTimeRent));
+        } else {
+            System.out.println("Status: Completed");
+            System.out.println("Return date time: " + DateTime.formatDateTime(dateTimeRent));
         }
         System.out.println();
     }

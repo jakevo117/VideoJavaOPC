@@ -9,8 +9,6 @@ import Util.DateTime;
 import Util.Reader;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -353,7 +351,7 @@ public class StoreController {
             long rentingDay = reader.getLongNumber("How many days you want to rent: ");
 
             rentingService.rentItem(userId, itemToRent, numberOfRent, rentingDay);
-            System.out.println("Movie rented successfully");
+            System.out.println("Movie renting request sent successfully");
 
             String dateTimeRent = DateTime.formatDateTime(rentingService.getDateAndTimeRent());
             System.out.println(dateTimeRent);
@@ -398,22 +396,44 @@ public class StoreController {
                 throw new Exception("Renting list is empty");
             }
 
-            int rentId = reader.getNumber("Input the rent ID you want to change the status: ");
-            int itemId = rentingService.getItemIdByRentId(rentId);
-            int storageAmount = storageService.getItemQuantityByItemId(itemId);
-            boolean status = rentingService.changeStatus(rentId, storageAmount);
+            System.out.println("What status you want to change to ?");
+            System.out.println("1. Rent Item      2. Return Item");
+            int choice = reader.getNumber("Input your choice: ");
 
-            if (status){
-                for (Rent rent: rentingService.getRentList()){
-                    if (rentId == rent.getRentId()){
-                        storageService.deductQuantity(rent.getItem().getItemId(), rent.getRentQuantity());
+            switch (choice){
+                case 1 -> {
+                    int rentId = reader.getNumber("Input the rent ID you want to change the status: ");
+                    int itemId = rentingService.getItemIdByRentId(rentId);
+
+                    int storageAmount = storageService.getItemQuantityByItemId(itemId);
+                    boolean status = rentingService.changeStatus(rentId, storageAmount);
+
+                    if (status){
+                        for (Rent rent: rentingService.getRentList()){
+                            if (rentId == rent.getRentId()){
+                                storageService.deductQuantity(rent.getItem().getItemId(), rentId, Type.RENT, rent.getRentQuantity());
+                            }
+                        }
+                        System.out.println("Status changed successfully");
+                        System.out.println();
+                    } else {
+                        throw new Exception("The storage does not have enough copies. ");
                     }
                 }
-                System.out.println("Status changed successfully");
-                System.out.println();
-            } else {
-                throw new Exception("The storage does not have enough copies. ");
+                case 2 -> {
+                    int rentId = reader.getNumber("Input the rent ID you want to change the status: ");
+
+                    for (Rent rent: rentingService.getRentList()){
+                        if (rentId == rent.getRentId()){
+                            rentingService.changeCompleted(rentId);
+                            storageService.addQuantityWithCode(rent.getItem().getItemId(), rentId, Type.RETURN, rent.getRentQuantity());
+                        }
+                    }
+                    System.out.println("Status changed successfully");
+                    System.out.println();
+                }
             }
+
 
         } catch (Exception e){
             System.out.println(e.getMessage());

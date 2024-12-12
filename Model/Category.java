@@ -1,7 +1,5 @@
 package Model;
 
-import javax.xml.catalog.CatalogException;
-
 public enum Category {
     GENERAL,
     HORROR,

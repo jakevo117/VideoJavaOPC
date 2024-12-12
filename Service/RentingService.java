@@ -2,6 +2,7 @@ package Service;
 
 import Model.Item;
 import Model.Rent;
+import Model.RentingStatus;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class RentingService {
     }
 
     public Rent rentItem(int userId, Item rentMovie, int numberOfCopies, long rentingDay){
-        Rent movieRent = new Rent(RentIdCounter, userId, rentMovie, numberOfCopies, rentingDay);
+        Rent movieRent = new Rent(RentIdCounter, userId, rentMovie, numberOfCopies, rentingDay, RentingStatus.UNPAID);
         rentList.add(movieRent);
         RentIdCounter++;
         return movieRent;
@@ -43,9 +44,9 @@ public class RentingService {
 
     public boolean changeStatus(int rentId, int storageQuantity){
         for (Rent rent: rentList) {
-            if (rentId == rent.getRentId()) {
+            if (rent.getRentId() == rentId) {
                 if (rent.getRentQuantity() <= storageQuantity){
-                    rent.setStatus(true);
+                    rent.setStatus(RentingStatus.PAID);
                     return true;
                 }
             }
@@ -53,12 +54,27 @@ public class RentingService {
         return false;
     }
 
+    public void changeCompleted(int rentId) throws Exception {
+        for (Rent rent: rentList){
+            if (rentId == rent.getRentId()){
+                if (rent.getStatus() == RentingStatus.PAID){
+                    rent.setStatus(RentingStatus.COMPLETED);
+                } else {
+                    throw new Exception("Invalid status");
+                }
+            }
+        }
+    }
+
     public int getItemIdByRentId(int rentId) throws Exception {
         int itemId;
         for (Rent rent : rentList) {
             if (rentId == rent.getRentId()){
-                itemId = rent.getItem().getItemId();
-                return itemId;
+                if (rent.getStatus() == RentingStatus.UNPAID) {
+                    itemId = rent.getItem().getItemId();
+                    return itemId;
+                }
+                throw new Exception("Invalid status");
             }
         }
         throw new Exception("Cannot found Id");
