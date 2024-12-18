@@ -2,7 +2,7 @@ package Util;
 
 import Service.UserService;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -116,7 +116,7 @@ public class Reader {
         }
     }
 
-    public LocalDate getValidDate(String message) {
+    public Date getValidDate(String message) {
         while (true) {
             try {
                 System.out.print(message + "(yyyy-mm-dd): ");
@@ -127,7 +127,7 @@ public class Reader {
                 if (!input.matches("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$")) {
                     throw new Exception("The input format or date was invalid");
                 }
-                return LocalDate.parse(input);
+                return Date.valueOf(input);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -138,5 +138,4 @@ public class Reader {
         String userConfirm = this.getNonEmptyString("Do you wish to continue? (Y/N): ").toUpperCase();
         return userConfirm.equals("Y");
     }
-
 }

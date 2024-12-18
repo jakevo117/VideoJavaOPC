@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Rent {
+    private int rentId;
     private Item item;
     private int userId;
-    private int rentId;
     private int rentQuantity;
     private RentingStatus status;
     private LocalDate rentDate;

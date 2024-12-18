@@ -14,15 +14,15 @@ public class StorageService {
     }
 
     public void addQuantity(int itemId, int amount) {
-       storageItemList.add(new Storage(itemId, amount, true));
+       storageItemList.add(new Storage(itemId, amount));
     }
 
     public void addQuantityWithCode(int itemId, int rentId, Type type, int amount) throws Exception {
-        storageItemList.add(new Storage(itemId, rentId, type, amount, true));
+        storageItemList.add(new Storage(itemId, rentId, type, amount));
     }
 
     public void deductQuantity(int itemId, int rentId, Type type, int amount){
-        storageItemList.add(new Storage(itemId, rentId, type, -amount, false));
+        storageItemList.add(new Storage(itemId, rentId, type, -amount));
     }
 
     public int getItemQuantityByItemId(int itemId) throws Exception {

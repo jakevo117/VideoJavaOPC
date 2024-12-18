@@ -1,5 +1,7 @@
 package Model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,21 +11,35 @@ public class User  {
     private String userName;
     private String password;
     private String email;
-    private LocalDate birthDate;
+    private Date birthDate;
     private ArrayList<Rent> rent;
     private ArrayList<Transaction> transactions;
     private double wallet;
     private ArrayList<Item> cart;
 
-    public User(int userId, String userName, String password, String email, LocalDate birthDate) {
+    public User(int userId, String userName, String email,  Date birthDate){
         this.userId = userId;
         this.userName = userName;
-        this.password = password;
         this.email = email;
         this.birthDate = birthDate;
+    }
+
+    public User(int userId, String userName, String password, String email, Date birthDate) {
+        this(userId, userName, email, birthDate);
+        this.password = password;
         this.rent = new ArrayList<>();
     }
 
+    public User(ResultSet res) {
+        try {
+            this.userId = res.getInt("userID");
+            this.userName = res.getString("userName");
+            this.email = res.getString("email");
+            this.birthDate = res.getDate("birthDate");
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 //    public User(String userName, String password, String email, LocalDate birthDate, ArrayList<Rent> rent){
 //        this(userName, password, email, birthDate);
 //        this.rent = rent;
@@ -61,11 +77,11 @@ public class User  {
         this.email = email;
     }
 
-    public LocalDate getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 

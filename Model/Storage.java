@@ -8,29 +8,18 @@ public class Storage {
     private int code;
     private Type type;
     private int quantity;
-    private boolean addRemove;
-    private LocalDateTime itemAddDate;
-    private LocalDateTime itemRemoveDate;
+    private LocalDateTime itemDate;
 
-    public Storage(int itemId, int quantity, boolean addRemove){
+    public Storage(int itemId, int quantity){
         this.itemId = itemId;
         this.quantity = quantity;
-        this.addRemove = addRemove;
-        if (addRemove){
-            this.itemAddDate = LocalDateTime.now();
-        } else {
-            this.itemRemoveDate = LocalDateTime.now();
-        }
+        this.itemDate = LocalDateTime.now();
     }
-    public Storage(int itemId, int code, Type type, int quantity, boolean addRemove) {
-        this(itemId, quantity, addRemove);
+    public Storage(int itemId, int code, Type type, int quantity) {
+        this(itemId, quantity);
         this.code = code;
         this.type = type;
-        if (addRemove){
-            this.itemAddDate = LocalDateTime.now();
-        } else {
-            this.itemRemoveDate = LocalDateTime.now();
-        }
+        this.itemDate = LocalDateTime.now();
     }
 
     public int getItemId() {
@@ -50,35 +39,17 @@ public class Storage {
     }
 
     public LocalDateTime getItemAddDate() {
-        return itemAddDate;
+        return itemDate;
     }
 
     public void setItemAddDate(LocalDateTime itemAddDate) {
-        this.itemAddDate = itemAddDate;
-    }
-
-    public LocalDateTime getItemRemoveDate() {
-        return itemRemoveDate;
-    }
-
-    public void setItemRemoveDate(LocalDateTime itemRemoveDate) {
-        this.itemRemoveDate = itemRemoveDate;
+        this.itemDate = itemAddDate;
     }
 
     public void printStorageInfo(){
         System.out.println("Movie ID: " + itemId);
-        if (quantity > 0) {
-            System.out.println("Quantity: " + quantity);
-        } else {
-            System.out.println("Quantity: " + quantity);
-        }
-        if (this.addRemove){
-            String addDateTime = DateTime.formatDateTime(itemAddDate);
-            System.out.println("Add datetime: " + addDateTime);
-        } else {
-            String removeDateTime = DateTime.formatDateTime(itemRemoveDate);
-            System.out.println("Remove datetime: " + removeDateTime);
-        }
+        System.out.println("Quantity: " + quantity);
+        System.out.println("Add datetime: " + itemDate);
         System.out.println();
     }
 }

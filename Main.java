@@ -1,8 +1,18 @@
 import Controller.StoreController;
 import Util.Reader;
+import Util.SqlConnection;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+
+
         StoreController user = new StoreController();
 
         System.out.println("                                            ==========================");
@@ -26,16 +36,16 @@ public class Main {
                 case 3 -> user.searchUser();
                 case 4 -> user.editUserInfo();
                 case 5 -> user.listUserInfo();
-                case 6 -> user.addItem();
-                case 7 -> user.deleteItem();
-                case 8 -> user.searchMovie();
-                case 9 -> user.editItemInfo();
-                case 10 -> user.listItem();
-                case 11 -> user.addItemQuantity();
-                case 12 -> user.rentMovie();
-                case 13 -> user.listStorage();
-                case 14 -> user.statusChange();
-                case 15 -> user.rentingList();
+//                case 6 -> user.addItem();
+//                case 7 -> user.deleteItem();
+//                case 8 -> user.searchMovie();
+//                case 9 -> user.editItemInfo();
+//                case 10 -> user.listItem();
+//                case 11 -> user.addItemQuantity();
+//                case 12 -> user.rentMovie();
+//                case 13 -> user.listStorage();
+//                case 14 -> user.statusChange();
+//                case 15 -> user.rentingList();
                 case 17 -> {
                     System.out.println("Exiting....");
                     return;
