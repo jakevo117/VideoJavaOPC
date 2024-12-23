@@ -12,7 +12,6 @@ public class UserService {
         this.userRepository = new UserRepository();
     }
     public ArrayList<User> getUserList() {
-
         return userRepository.getListUser();
     }
 
@@ -70,6 +69,5 @@ public class UserService {
     public boolean checkEmpty(){
         return userRepository.isEmpty();
     }
-//
 }
 

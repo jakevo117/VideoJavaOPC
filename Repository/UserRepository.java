@@ -9,19 +9,6 @@ import java.util.ArrayList;
 import java.sql.Date;
 
 public class UserRepository {
-
-//    Connection cn = SqlConnection.getConnection();
-//        if (cn != null) {
-//        String queries = "SELECT * FROM " ;
-//        ResultSet rs = cn.prepareStatement(queries).executeQuery();
-//        while (rs.next()) {
-//            category.add(rs.getString("categoryName"));
-//        }
-//    }
-//            for (int i = 0; i < category.size(); i++) {
-//        System.out.println(category.get(i));
-//    }
-//            cn.close();
     public ArrayList<User> getListUser(){
         ArrayList<User> userList = new ArrayList<>();
         try{

@@ -1,33 +1,43 @@
 package Service;
 
 import Model.Storage;
-import Model.Type;
 
-import java.util.ArrayList;
+import Repository.StorageRepository;
+
 import java.util.List;
 
 public class StorageService {
-    private ArrayList<Storage> storageItemList;
+    private StorageRepository storageRepository;
 
     public StorageService() {
-        this.storageItemList = new ArrayList<>();
+        this.storageRepository = new StorageRepository();
     }
 
-    public void addQuantity(int itemId, int amount) {
-       storageItemList.add(new Storage(itemId, amount));
+    public List<Storage> getListStorage() {
+        return storageRepository.getListStorage();
+    }
+    public void listStorage(){
+        for (Storage storage: getListStorage()){
+            storage.printStorageInfo();
+        }
     }
 
-    public void addQuantityWithCode(int itemId, int rentId, Type type, int amount) throws Exception {
-        storageItemList.add(new Storage(itemId, rentId, type, amount));
+    public void addQuantity(int itemID, int code, int typeID, int itemQuantity) {
+        storageRepository.addNewQuantity(itemID, code, typeID, itemQuantity);
     }
 
-    public void deductQuantity(int itemId, int rentId, Type type, int amount){
-        storageItemList.add(new Storage(itemId, rentId, type, -amount));
+    public void addQuantityWithCode(int itemID, int code, int itemQuantity){
+        int typeID = 3;
+        storageRepository.addNewQuantity(itemID, code, typeID, itemQuantity);
     }
 
-    public int getItemQuantityByItemId(int itemId) throws Exception {
+    public void deductQuantity(int itemId, int code, int typeID, int amount){
+        storageRepository.addNewQuantity(itemId, code, typeID, -amount);
+    }
+
+    public int getItemQuantityByItemId(int itemId) {
         int count = 0;
-        for (Storage storage: storageItemList ) {
+        for (Storage storage: getListStorage() ) {
             if (storage.getItemId() == itemId) {
                 count += storage.getQuantity();
             }
@@ -35,15 +45,7 @@ public class StorageService {
         return count;
     }
 
-    public List<Storage> getListStorage() {
-        return this.storageItemList;
-    }
-    public void listStorage(){
-        for (Storage storage: storageItemList){
-            storage.printStorageInfo();
-        }
-    }
     public boolean checkEmptyList(){
-        return storageItemList.isEmpty();
+        return storageRepository.isEmpty();
     }
 }

@@ -1,52 +1,40 @@
 package Service;
 
-import Model.Item;
 import Model.Rent;
-import Model.RentingStatus;
-
-import java.time.LocalDateTime;
+import Repository.RentRepository;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RentingService {
-    private ArrayList<Rent> rentList;
-    private int RentIdCounter;
+    private RentRepository rentRepository;
 
     public RentingService(){
-        this.rentList = new ArrayList<>();
-        this.RentIdCounter = 1;
+        this.rentRepository = new RentRepository();
     }
 
-    public Rent rentItem(int userId, Item rentMovie, int numberOfCopies, long rentingDay){
-        Rent movieRent = new Rent(RentIdCounter, userId, rentMovie, numberOfCopies, rentingDay, RentingStatus.UNPAID);
-        rentList.add(movieRent);
-        RentIdCounter++;
-        return movieRent;
+    public ArrayList<Rent> getRentList(){
+        return rentRepository.getListRent();
+    }
+
+    public void rentItem(int itemID, int userID, int rentQuantity, long numberOfDayRent){
+        int rentingStatusID = 1;
+        rentRepository.rentMovie(itemID, userID, rentQuantity, rentingStatusID, numberOfDayRent);
     }
 
     public void rentList(){
-        for (Rent rent: rentList){
+        for (Rent rent: getRentList()){
             rent.printRentList();
         }
     }
 
     public boolean checkEmptyList() {
-        return rentList.isEmpty();
-    }
-
-    public LocalDateTime getDateAndTimeRent(){
-        LocalDateTime dateTime = null;
-        for (Rent rent: rentList){
-            dateTime =  rent.getDateTimeRent();
-        }
-        return dateTime;
+        return rentRepository.isEmpty();
     }
 
     public boolean changeStatus(int rentId, int storageQuantity){
-        for (Rent rent: rentList) {
+        for (Rent rent: getRentList()) {
             if (rent.getRentId() == rentId) {
                 if (rent.getRentQuantity() <= storageQuantity){
-                    rent.setStatus(RentingStatus.PAID);
+                    rentRepository.updateRentingStatus(rentId, 2);
                     return true;
                 }
             }
@@ -55,10 +43,10 @@ public class RentingService {
     }
 
     public void changeCompleted(int rentId) throws Exception {
-        for (Rent rent: rentList){
+        for (Rent rent: getRentList()){
             if (rentId == rent.getRentId()){
-                if (rent.getStatus() == RentingStatus.PAID){
-                    rent.setStatus(RentingStatus.COMPLETED);
+                if (rent.getRentingStatusID() == 2){
+                    rentRepository.updateRentingStatus(rentId, 3);
                 } else {
                     throw new Exception("Invalid status");
                 }
@@ -68,19 +56,15 @@ public class RentingService {
 
     public int getItemIdByRentId(int rentId) throws Exception {
         int itemId;
-        for (Rent rent : rentList) {
+        for (Rent rent : getRentList()) {
             if (rentId == rent.getRentId()){
-                if (rent.getStatus() == RentingStatus.UNPAID) {
-                    itemId = rent.getItem().getItemId();
+                if (rent.getRentingStatusID() == 1) {
+                    itemId = rent.getItemID();
                     return itemId;
                 }
                 throw new Exception("Invalid status");
             }
         }
         throw new Exception("Cannot found Id");
-    }
-
-    public ArrayList<Rent> getRentList(){
-        return this.rentList;
     }
 }

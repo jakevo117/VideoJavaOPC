@@ -1,75 +1,58 @@
 package Service;
 
-import Model.Category;
 import Model.Item;
-import Model.Storage;
-import Util.Reader;
+import Repository.ItemRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ItemService {
-    private ArrayList<Item> availableItems;
-    private int ItemIdCounter;
-
+    private ItemRepository itemRepository;
     public ItemService() {
-        this.availableItems = new ArrayList<>();
-        this.ItemIdCounter = 1;
+        this.itemRepository = new ItemRepository();
     }
 
-    //    ITEM FUNCTIONS
-
-    public Item addItem(String title, Category category, double price) throws Exception {
-        Item item = new Item(this.ItemIdCounter, title,category, price);
-        availableItems.add(item);
-        this.ItemIdCounter++;
-        return item;
+    public void addItem(String title, int categoryID, double price) {
+        itemRepository.addNewItem(title, categoryID, price);
     }
 
-    public List<Item> getListItem () {
-        return this.availableItems;
+    public ArrayList<Item> getItemList() {
+        return itemRepository.getListItem();
     }
 
+    public ArrayList<Item> getItemListDetail() {
+        return itemRepository.getListItemDetail();
+    }
     public void listItem() {
-        for (Item item : availableItems) {
+        for (Item item : getItemListDetail()) {
             item.printItemInfo();
         }
     }
 
-    public Item searchItem(String itemFind) throws Exception {
-        Item item = null;
-        for (Item itemSearch : availableItems) {
-            if (itemFind.equalsIgnoreCase(itemSearch.getTitle())) {
-                item = itemSearch;
-            }
-        }
+    public Item searchItem(int itemFind) {
+        Item item = itemRepository.getItemById(itemFind);
         return item;
     }
 
     public void deleteItem(Item itemToDelete) {
-        availableItems.remove(itemToDelete);
+        itemRepository.removeItemById(itemToDelete);
     }
 
-    public void editItemInfo(Item itemToEdit) throws Exception {
-        int index = availableItems.indexOf(itemToEdit);
-        availableItems.set(index, itemToEdit);
+    public void editItemInfo(Item itemToEdit, String fieldCase, String valueToEditString, int newCategoryID, double valueToEditPrice) {
+        itemRepository.EditItemInfoDB(itemToEdit, fieldCase, valueToEditString, newCategoryID, valueToEditPrice);
     }
 
     public int getItemIdByMovieTitle(String title){
-        int userId = -1;
-        for (Item item: availableItems){
+        for (Item item: getItemList()){
             if (title.equalsIgnoreCase(item.getTitle())){
-                userId = item.getItemId();
+                return item.getItemId();
             }
         }
-        return userId;
+        return -1;
     }
-
-
-    public boolean checkExistItem(String itemNeedCheck) {
-        return this.availableItems.stream().anyMatch(u -> itemNeedCheck.equalsIgnoreCase(u.getTitle()));
-    }
+//    public boolean checkExistItem(String itemNeedCheck) {
+//        return this.availableItems.stream().anyMatch(u -> itemNeedCheck.equalsIgnoreCase(u.getTitle()));
+//    }
     public boolean checkEmptyList(){
-        return availableItems.isEmpty();
+        return itemRepository.isEmpty();
     }
 }

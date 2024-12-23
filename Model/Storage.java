@@ -1,12 +1,15 @@
 package Model;
 
 import Util.DateTime;
+
+import java.sql.ResultSet;
 import java.time.LocalDateTime;
 
 public class Storage {
+    private int storageID;
     private int itemId;
     private int code;
-    private Type type;
+    private int typeID;
     private int quantity;
     private LocalDateTime itemDate;
 
@@ -15,11 +18,24 @@ public class Storage {
         this.quantity = quantity;
         this.itemDate = LocalDateTime.now();
     }
-    public Storage(int itemId, int code, Type type, int quantity) {
+    public Storage(int itemId, int code, int typeID, int quantity) {
         this(itemId, quantity);
         this.code = code;
-        this.type = type;
+        this.typeID = typeID;
         this.itemDate = LocalDateTime.now();
+    }
+
+    public Storage(ResultSet rs){
+        try {
+            this.storageID = rs.getInt("storageID");
+            this.itemId = rs.getInt("itemID");
+            this.code = rs.getInt("code");
+            this.typeID = rs.getInt("typeID");
+            this.quantity = rs.getInt("itemQuantity");
+            this.itemDate = rs.getTimestamp("itemAmountChangeDay").toLocalDateTime();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public int getItemId() {
@@ -49,7 +65,7 @@ public class Storage {
     public void printStorageInfo(){
         System.out.println("Movie ID: " + itemId);
         System.out.println("Quantity: " + quantity);
-        System.out.println("Add datetime: " + itemDate);
+        System.out.println("Add datetime: " + DateTime.formatDateTime(itemDate));
         System.out.println();
     }
 }

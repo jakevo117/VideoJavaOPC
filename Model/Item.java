@@ -1,19 +1,48 @@
 package Model;
 
+import Util.Capitalize;
+import java.sql.ResultSet;
+
 public class Item {
     private int itemId;
     private String title;
-    private Category category;
+    private int categoryID;
+    private String categoryName;
     private Boolean isAvailable;
     private double price;
 
-    public Item(int itemId, String title, Category category, double price) {
+    public Item(int itemId, String title, int categoryID, double price) {
         this.itemId = itemId;
         this.title = title;
-        this.category = category;
+        this.categoryID = categoryID;
         this.price = price;
         this.isAvailable = false;
     }
+
+    public Item (ResultSet res, Category category){
+        try {
+            this.categoryName = category.getCategoryName();
+            this.itemId = res.getInt("itemID");
+            this.title = res.getString("title");
+            this.categoryID = res.getInt("categoryID");
+            this.price = res.getFloat("itemPrice");
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public Item (ResultSet res){
+        try {
+            this.itemId = res.getInt("itemID");
+            this.title = res.getString("title");
+            this.categoryID = res.getInt("categoryID");
+            this.price = res.getFloat("itemPrice");
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     public int getItemId() {
         return itemId;
@@ -24,7 +53,7 @@ public class Item {
     }
 
     public String getTitle() {
-        title = capitalizeWord(title);
+        title = Capitalize.capitalizeWord(title);
         return title;
     }
 
@@ -32,12 +61,12 @@ public class Item {
         this.title = title;
     }
 
-    public Category getCategory() {
-        return category;
+    public int getCategoryID() {
+        return categoryID;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(int categoryID) {
+        this.categoryID = categoryID;
     }
 
     public Boolean getAvailable() {
@@ -56,37 +85,26 @@ public class Item {
         this.price = price;
     }
 
-    public static String capitalizeWord(String input){
-        String[] words = input.split("\\s");
-        StringBuilder result = new StringBuilder();
-        for (String word: words){
-            result.append(Character.toTitleCase(word.charAt(0))).append(word.substring(1)).append(" ");
-        }
-        return result.toString().trim();
-    }
+
     public void printItemInfo(){
-        title = capitalizeWord(title);
+        title = Capitalize.capitalizeWord(title);
         System.out.println("Movie ID: " + itemId);
         System.out.println("Title: " + title);
-        System.out.println("Category: " + category);
-        System.out.println("Price: " + price);
+        System.out.println("CategoryID: " + categoryID);
+        System.out.println("Category name: " + categoryName);
+        System.out.println("Price: " + String.format("%.2f", price));
         System.out.println();
     }
 
-    public void printItemInfo(int quantity){
-        title = capitalizeWord(title);
+    public void printItemInfoDetail(int quantity){
+        title = Capitalize.capitalizeWord(title);
         System.out.println("Movie ID: " + itemId);
         System.out.println("Title: " + title);
-        System.out.println("Category: " + category);
-        System.out.println("Price: " + price);
-        if (quantity > 0){
-            System.out.println("In-stock");
-            System.out.println("Quantity: " + quantity);
-        } else {
-            System.out.println("Out of stock");
-            System.out.println("Quantity: " + quantity);
+        System.out.println("CategoryID: " + categoryID);
+        if (categoryName != null){
+            System.out.println("Category name: " + categoryName);
         }
-
+        System.out.println("Price: " + String.format("%.2f", price));
         System.out.println();
     }
 }
